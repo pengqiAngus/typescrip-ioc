@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5", // 编译目标
+    "module": "commonjs", // 模块系统
+    "strict": true, // 启用所有严格类型检查选项
+    "esModuleInterop": true, // 兼容CommonJS和ES模块
+    "skipLibCheck": true, // 跳过库文件的类型检查
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "outDir": "./dist", // 输出目录
+    "rootDir": "./src", // 源码目录
+    "moduleResolution": "node", // 模块解析策略
+    "jsx": "react-jsx" // 如果使用React，可以设置为"react-jsx"
+  },
+  "include": ["src"], // 包含的文件或目录
+  "exclude": ["node_modules"] // 排除的文件或目录
+}

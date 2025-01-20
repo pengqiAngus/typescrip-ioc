@@ -22,7 +22,8 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "ts-node Ioc/index.ts"
+		"dev": "ts-node Ioc/index.ts",
+		"dev:demo": "ts-node src/demo1.ts"
 	},
 	"author": "",
 	"license": "ISC",

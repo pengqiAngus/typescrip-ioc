@@ -11,7 +11,9 @@ const TYPES: ITypes = {
 }
 
 const container = new CreateIoc();
-
+function hasKey<O extends Object>(obj: O, key: any): key is keyof O {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}
 
 interface IIndexService {
   log(str: string): void;
@@ -42,17 +44,7 @@ function getFunctionParams(func: Function) {
   return validParams;
 }
 
-function inject(serviceIdentifier:Symbol):Function {
-    return (target: Function, targetKey:string, index:number) => {
-        if ((!targetKey)) {
-            Reflect.defineMetadata(
-              serviceIdentifier,
-              container.get(serviceIdentifier),
-              target
-            );
-        }
-    }
-}
+
 
 function controller<T extends { new (...args: any[]): {} }>(constructor: T) {
   class Controller extends constructor {
@@ -73,14 +65,28 @@ function controller<T extends { new (...args: any[]): {} }>(constructor: T) {
 }
 
 // 判断一个对象是否有key
-function hasKey<O extends Object>(obj: O, key: any): key is keyof O{
-  return Object.prototype.hasOwnProperty.call(obj, key);
+
+
+function inject(serviceIdentifier: Symbol): Function {
+    return (value: any, context: any) => {
+      console.log("value", value);
+    console.log("value", context);
+    
+    if (!context) {
+    //   Reflect.defineMetadata(
+    //     serviceIdentifier,
+    //     container.get(serviceIdentifier),
+    //     value
+    //   );
+    }
+  };
 }
 
 @controller
 class IndexController {
+  @inject(TYPES.indexService)
   private indexService: IIndexService;
-  constructor( @inject(TYPES.indexService) indexService?: IIndexService) {
+  constructor(indexService?: IIndexService) {
     this.indexService = indexService!;
   }
   info() {

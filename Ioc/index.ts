@@ -46,16 +46,16 @@ function getFunctionParams(func: Function) {
 
 
 
-function controller<T extends { new (...args: any[]): {} }>(constructor: T) {
-  class Controller extends constructor {
+function controller<T extends { new (...args: any[]): {} }>(value: T) {
+  class Controller extends value {
     constructor(...args: any[]) {
       super(args);
-      const _params = getFunctionParams(constructor);
-        let _identity: string;
-        for (_identity of _params) {
-        const _meta = Reflect.getMetadata(TYPES[_identity], constructor);
+      const _params = getFunctionParams(value);
+      let _identity: string;
+      for (_identity of _params) {
+        const _meta = Reflect.getMetadata(TYPES[_identity], value);
         if (hasKey(this, _identity) && _meta) {
-          //   this[_identity] = container.get(TYPES[_identity]);
+          this[_identity] = container.get(TYPES[_identity]);
           this[_identity] = _meta;
         }
       }
@@ -68,18 +68,18 @@ function controller<T extends { new (...args: any[]): {} }>(constructor: T) {
 
 
 function inject(serviceIdentifier: Symbol): Function {
-    return (value: any, context: any) => {
+    return (value: any, context: ClassFieldDecorator) => {
       console.log("value", value);
-    console.log("value", context);
-    
-    if (!context) {
-    //   Reflect.defineMetadata(
-    //     serviceIdentifier,
-    //     container.get(serviceIdentifier),
-    //     value
-    //   );
-    }
-  };
+      console.log("value", context);
+     const Class = context.constructor.constructor;
+      if (context) {
+          Reflect.defineMetadata(
+            serviceIdentifier,
+            container.get(serviceIdentifier),
+            Class
+          );
+      }
+    };
 }
 
 @controller

@@ -55,7 +55,7 @@ function controller<T extends { new (...args: any[]): {} }>(value: T) {
       for (_identity of _params) {
         const _meta = Reflect.getMetadata(TYPES[_identity], value);
         if (hasKey(this, _identity) && _meta) {
-          this[_identity] = container.get(TYPES[_identity]);
+        //   this[_identity] = container.get(TYPES[_identity]);
           this[_identity] = _meta;
         }
       }
